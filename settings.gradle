@@ -1,0 +1,2 @@
+include ':proton'
+project(':proton').projectDir = new File('app')
