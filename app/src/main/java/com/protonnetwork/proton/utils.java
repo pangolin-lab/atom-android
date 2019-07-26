@@ -1,5 +1,7 @@
 package com.protonnetwork.proton;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -30,6 +32,8 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.protonnetwork.ProtonApplication;
 
 import java.io.OutputStream;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 interface AlertDialogOkCallBack{
     void OkClicked(String parameter);
@@ -206,6 +210,30 @@ public final class utils {
 
     public static  boolean validEthAddress(String ethAddr){
         return !ethAddr.equals("") && !ethAddr.equals("0x0000000000000000000000000000000000000000");
+    }
+
+    public static boolean checkStorage(Activity ctx){
+        if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(
+                    ctx,
+                    ctx.getString(R.string.rationale_extra_write),
+                    utils.RC_IMAGE_GALLARY_PERM,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return false;
+        }
+        return true;
+    }
+
+    public static  boolean checkCamera(Activity ctx){
+        if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.CAMERA)) {
+            EasyPermissions.requestPermissions(
+                    ctx,
+                    ctx.getString(R.string.camera),
+                    utils.RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA);
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.protonnetwork.proton;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,10 +19,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.protonnetwork.proton.service.ProtonService;
+
 import java.util.List;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -250,32 +252,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         }
     }
 
+    @AfterPermissionGranted(utils.RC_IMAGE_GALLARY_PERM)
+    void realAction(){
+        utils.ToastTips("授权成功请继续之前的操作");
+    }
 
     void ImportAccount(){
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_extra_write),
-                    utils.RC_IMAGE_GALLARY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.camera),
-                    utils.RC_CAMERA_PERM,
-                    Manifest.permission.CAMERA);
-        }
-
         AlertDialogOkCallBack callBack = new AlertDialogOkCallBack(){
-
             @Override
             public void OkClicked(String parameter) {
                 showImportQRChoice();
             }
         };
-
         String accAddr = ProtonAccount.Instance().ProtonAddress;
         if (!accAddr.equals("")){
             utils.ShowOkOrCancelAlert(this,"确定要替换吗？",
@@ -284,6 +272,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         }
         showImportQRChoice();
     }
+
+
+
     void showImportQRChoice(){
         final String[] listItems = {"扫描二维码读取","从相册读取", "取消"};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
@@ -294,6 +285,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 if (0 == i){
+
+                    if (!utils.checkCamera(MainActivity.this)){
+                        return;
+                    }
+
                     IntentIntegrator ii = new IntentIntegrator(MainActivity.this);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
@@ -301,8 +297,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                     ii.setCameraId(0); //前置或者后置摄像头
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
-
                 }else if (1 == i){
+
+                    if (!utils.checkStorage(MainActivity.this)){
+                        return;
+                    }
+
                     Intent pi = new Intent(Intent.ACTION_GET_CONTENT,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pi , utils.RC_SELECT_FROM_GALLARY);
@@ -315,17 +315,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         mDialog.show();
     }
 
-    @AfterPermissionGranted(utils.RC_IMAGE_GALLARY_PERM)
     void QrCodeGenerateTask(){
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_extra_write),
-                    utils.RC_IMAGE_GALLARY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (!utils.checkStorage(this)){
             return;
         }
-            final String accountData = ProtonAccount.Instance().AccountToJson();
+
+        final String accountData = ProtonAccount.Instance().AccountToJson();
         if (accountData.equals("")) {
             utils.ToastTips("空账号");
             return;

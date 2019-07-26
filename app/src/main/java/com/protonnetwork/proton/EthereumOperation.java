@@ -1,6 +1,5 @@
 package com.protonnetwork.proton;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +20,6 @@ import com.google.zxing.integration.android.IntentResult;
 
 import androidLib.AndroidLib;
 import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class EthereumOperation extends Activity implements View.OnClickListener{
 
@@ -278,23 +276,6 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
     }
 
     void importEthAddress(){
-
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_extra_write),
-                    utils.RC_IMAGE_GALLARY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.camera),
-                    utils.RC_CAMERA_PERM,
-                    Manifest.permission.CAMERA);
-        }
-
         AlertDialogOkCallBack callBack = new AlertDialogOkCallBack(){
             @Override
             public void OkClicked(String parameter) {
@@ -321,6 +302,10 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 if (0 == i){
+                    if (!utils.checkCamera(EthereumOperation.this)){
+                        return;
+                    }
+
                     IntentIntegrator ii = new IntentIntegrator(EthereumOperation.this);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
@@ -330,6 +315,10 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                     ii.initiateScan();
 
                 }else if (1 == i){
+                    if (!utils.checkStorage(EthereumOperation.this)){
+                        return;
+                    }
+
                     Intent pi = new Intent(Intent.ACTION_GET_CONTENT,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pi , utils.RC_SELECT_FROM_GALLARY);
@@ -343,12 +332,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
     }
 
     void exportEthAddress(){
-        if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_extra_write),
-                    utils.RC_IMAGE_GALLARY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (!utils.checkStorage(this)){
             return;
         }
 
