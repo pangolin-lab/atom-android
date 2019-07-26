@@ -273,8 +273,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         showImportQRChoice();
     }
 
-
-
     void showImportQRChoice(){
         final String[] listItems = {"扫描二维码读取","从相册读取", "取消"};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
@@ -285,7 +283,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 if (0 == i){
-
                     if (!utils.checkCamera(MainActivity.this)){
                         return;
                     }
