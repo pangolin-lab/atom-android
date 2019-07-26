@@ -17,8 +17,10 @@ public class AccountStatusChangedReceiver extends BroadcastReceiver {
     public static final String ActionKey = "ActionKey";
     public static final String ActionMsg = "ActionMessage";
 
-    private final Handler handler;
+    private Handler handler = null;
 
+    public AccountStatusChangedReceiver(){
+    }
     public AccountStatusChangedReceiver(Handler handler){
         this.handler = handler;
     }
