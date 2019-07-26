@@ -35,19 +35,16 @@ import java.util.concurrent.TimeUnit;
 import androidLib.AndroidLib;
 
 public class ProtonService extends VpnService implements androidLib.VpnDelegate, Runnable {
-    public static final String STATUS_CHANGED = "com.protonnetwork.Sofa.receiver.statusChanged";
     private static ConcurrentHashMap<onStatusChangedListener, Object> mOnStatusChangedListeners = new ConcurrentHashMap<onStatusChangedListener, Object>();
     public static boolean IsRunning = false;
 
     public static final long IDLE_INTERVAL_MS = TimeUnit.MILLISECONDS.toMillis(100);
-    public static final String DATA_PASSWORD = "com.protonnetwork.Sofa.PassWord";
+    public static final String DATA_PASSWORD = "com.protonnetwork.proton.PassWord";
     public static final String TAG = "ProtonService";
     private static final String LOCAL_IP = "10.8.0.2";
-    public static final String BootNodeSavePath =  "OutSofaBootNodes.dat";
-//    public static final String BackBootNodeSavePath =  "BackSofaBootNodes.dat";
-    public static final String OUT_TICKET = "https://raw.githubusercontent.com/protonnetwork/interplanetary-navigation/master/sofa_debug.ticket";
-//    public static final String OUT_TICKET = "https://raw.githubusercontent.com/protonnetwork/interplanetary-navigation/master/sofa.ticket";
-//    public static final String BACK_TICKET = "https://raw.githubusercontent.com/protonnetwork/interplanetary-navigation/master/sofa_back.ticket";
+    public static final String BootNodeSavePath =  "OutProtonBootNodes.dat";
+    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed_debug.quantum";
+//    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
 
     private Thread m_ReadingThread;
     private Thread m_VPNThread;
@@ -139,9 +136,9 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
                 .setContentText("proton BlockChain network")
                 .setWhen(System.currentTimeMillis());
 
-        String channelId = "com.protonnetwork.sofaservcie.channel";
+        String channelId = "com.protonnetwork.protonservcie.channel";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            createNotificationChannel(channelId, "com.protonnetwork.sofaservcie");
+            createNotificationChannel(channelId, "com.protonnetwork.protonservcie");
             builder.setChannelId(channelId);
         }
 
@@ -182,9 +179,7 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
 
             String bootNodes = loadSavedBootNode();
 
-//            String addr = SofaManager.Instance().accAddr;
-//            String cipher = SofaManager.Instance().accCipher;
-            String addr = ProtonAccount.Instance().SofaAddress;
+            String addr = ProtonAccount.Instance().ProtonAddress;
             String cipher = ProtonAccount.Instance().CipherTxt;
             AndroidLib.initVPN(addr, cipher,
                     OUT_TICKET, bootNodes, chineseIPs, this);
@@ -257,7 +252,7 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
 
     @Override
     public String getBootPath() {
-        return getDir("Sofa", MODE_PRIVATE) + File.separator + BootNodeSavePath;
+        return getDir("Pronton", MODE_PRIVATE) + File.separator + BootNodeSavePath;
     }
 
     @Override

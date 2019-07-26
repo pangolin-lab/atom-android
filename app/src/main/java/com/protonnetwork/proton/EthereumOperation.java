@@ -25,7 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class EthereumOperation extends Activity implements View.OnClickListener{
 
-    EditText curEthAccountTxt, ethBalanceTxt,sofaBalanceTxt,operatedSofaAccountTxt,boundEthAddrTxt, boundNoTxt;
+    EditText curEthAccountTxt, ethBalanceTxt, protonBalanceTxt, operatedProtonAccountTxt,boundEthAddrTxt, boundNoTxt;
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler(){
         @Override
@@ -47,8 +47,8 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
 
         curEthAccountTxt = findViewById(R.id.addressOfEthereumAccount);
         ethBalanceTxt = findViewById(R.id.ethereumBalance);
-        sofaBalanceTxt = findViewById(R.id.sofaBalance);
-        operatedSofaAccountTxt = findViewById(R.id.SofaAddrInEthAccount);
+        protonBalanceTxt = findViewById(R.id.protonBalance);
+        operatedProtonAccountTxt = findViewById(R.id.ProtonAddrInEthAccount);
         boundEthAddrTxt = findViewById(R.id.addressOfEthereumAccountForSeach);
         boundNoTxt = findViewById(R.id.boundNum);
 
@@ -56,7 +56,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         waitingBar.setVisibility(View.GONE);
 
         statusReceiver = new AccountStatusChangedReceiver(mHandler);
-        intentFilter = new IntentFilter(AccountStatusChangedReceiver.SofaAccountChanged);
+        intentFilter = new IntentFilter(AccountStatusChangedReceiver.ProtonAccountChanged);
     }
 
     @Override
@@ -156,10 +156,10 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                 break;
 
             case "6":
-                bindSofaAddress();
+                bindProtonAddress();
                 break;
             case "7":
-                unbindSofaAddress();
+                unbindProtonAddress();
                 break;
             case "8":
                 searchBindings();
@@ -167,10 +167,10 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         }
     }
 
-    boolean checkSofaAndEthAddress(){
-        String sofaAddress = operatedSofaAccountTxt.getText().toString();
-        if (sofaAddress.equals("")){
-            utils.ToastTips("sofa地址不能为空");
+    boolean checkProtonAndEthAddress(){
+        String protonAddress = operatedProtonAccountTxt.getText().toString();
+        if (protonAddress.equals("")){
+            utils.ToastTips("Proton地址不能为空");
             return false;
         }
 
@@ -179,14 +179,15 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             utils.ToastTips("请设置本操作需要用到的以太坊地址");
             return false;
         }
+
         return true;
     }
 
     void searchBindings(){
 
-        final String sofaAddress = operatedSofaAccountTxt.getText().toString();
-        if (sofaAddress.equals("")){
-            utils.ToastTips("sofa地址不能为空");
+        final String protonAddress = operatedProtonAccountTxt.getText().toString();
+        if (protonAddress.equals("")){
+            utils.ToastTips("Proton地址不能为空");
             return;
         }
 
@@ -194,7 +195,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         Thread th = new Thread(){
             @Override
             public void  run(){
-                final String ethAddr = AndroidLib.loadEthAddrBySofaAddr(sofaAddress);
+                final String ethAddr = AndroidLib.loadEthAddrByProtonAddr(protonAddress);
                 hideWaitingRing();
 
                 runOnUiThread(new Runnable() {
@@ -208,19 +209,19 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         th.start();
     }
 
-    void unbindSofaAddress(){
+    void unbindProtonAddress(){
 
-        if(!checkSofaAndEthAddress()){
+        if(!checkProtonAndEthAddress()){
             return;
         }
 
-        final String sofaAddress = operatedSofaAccountTxt.getText().toString();
+        final String protonAddress = operatedProtonAccountTxt.getText().toString();
         final String CipherTxt = EthereumAccount.Instance().CipherTxt;
 
         utils.showPassWord(EthereumOperation.this, new AlertDialogOkCallBack() {
             @Override
             public void OkClicked(String password) {
-                String ret = AndroidLib.unbindSofaAddress(sofaAddress, CipherTxt, password);
+                String ret = AndroidLib.unbindProtonAddress(protonAddress, CipherTxt, password);
                 if (!ret.startsWith("0x")){
                     utils.ToastTips("解除绑定失败:" + ret);
                     hideWaitingRing();
@@ -233,15 +234,15 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         });
     }
 
-    void bindSofaAddress(){
-        if(!checkSofaAndEthAddress()){
+    void bindProtonAddress(){
+        if(!checkProtonAndEthAddress()){
             return;
         }
 
-        final String sofaAddress = operatedSofaAccountTxt.getText().toString();
+        final String protonAddress = operatedProtonAccountTxt.getText().toString();
         showWaitingRing();
 
-        final String ethAddr = AndroidLib.loadEthAddrBySofaAddr(sofaAddress);
+        final String ethAddr = AndroidLib.loadEthAddrByProtonAddr(protonAddress);
         if (utils.validEthAddress(ethAddr)){
             utils.ToastTips("该地址已经被["+ethAddr+"]绑定");
             hideWaitingRing();
@@ -252,7 +253,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         utils.showPassWord(EthereumOperation.this, new AlertDialogOkCallBack() {
             @Override
             public void OkClicked(String password) {
-                String ret = AndroidLib.bindSofaAddress(sofaAddress, CipherTxt, password);
+                String ret = AndroidLib.bindProtonAddress(protonAddress, CipherTxt, password);
                 if (!ret.startsWith("0x")){
                     utils.ToastTips("绑定失败:" + ret);
                     hideWaitingRing();
@@ -271,7 +272,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         intent.setData(Uri.parse(url));
         startActivity(intent);
 
-        Intent i = new Intent(AccountStatusChangedReceiver.SofaAccountChanged);
+        Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
         i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.EthAccountChangedAction);
         sendBroadcast(i);
     }
@@ -323,7 +324,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                     IntentIntegrator ii = new IntentIntegrator(EthereumOperation.this);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
-                    ii.setPrompt("请扫描Sofa账号二维码"); //底部的提示文字，设为""可以置空
+                    ii.setPrompt("请扫描Proton账号二维码"); //底部的提示文字，设为""可以置空
                     ii.setCameraId(0); //前置或者后置摄像头
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
@@ -411,7 +412,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                 String address = EthereumAccount.Instance().EthAddress;
                 curEthAccountTxt.setText(address);
                 ethBalanceTxt.setText(EthereumAccount.Instance().ethBalance);
-                sofaBalanceTxt.setText(EthereumAccount.Instance().sofaBalance);
+                protonBalanceTxt.setText(EthereumAccount.Instance().protonBalance);
                 boundNoTxt.setText(EthereumAccount.Instance().boundNo);
 
             }

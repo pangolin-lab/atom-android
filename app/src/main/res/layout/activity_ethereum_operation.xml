@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    tools:context="com.protonnetwork.sofa.EthereumOperation">
+    tools:context="com.protonnetwork.proton.EthereumOperation">
 
     <ProgressBar
         android:id="@+id/waitingTips"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/sofaBalance"
+        android:id="@+id/protonBalance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -33,13 +33,13 @@
         android:background="#CED0CF"
         android:ems="10"
         android:enabled="false"
-        android:hint="@string/sofa_coin"
+        android:hint="@string/proton_coin"
         android:importantForAutofill="no"
         android:inputType="text"
         android:lines="2"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/RefreshEthereBalance"
-        app:layout_constraintStart_toEndOf="@+id/sofaAddrLabel"
+        app:layout_constraintStart_toEndOf="@+id/protonAddrLabel"
         app:layout_constraintTop_toBottomOf="@+id/ethereumBalance"
         tools:targetApi="o"/>
 
@@ -59,8 +59,8 @@
         android:lines="2"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bundSofaNoLabel"
-        app:layout_constraintTop_toBottomOf="@+id/sofaBalance"
+        app:layout_constraintStart_toEndOf="@+id/bundProtonNoLabel"
+        app:layout_constraintTop_toBottomOf="@+id/protonBalance"
         tools:targetApi="o"/>
 
     <EditText
@@ -120,7 +120,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/CopySearchedEthereAcccount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SofaAddrInEthAccount"
+        app:layout_constraintTop_toBottomOf="@+id/ProtonAddrInEthAccount"
         tools:targetApi="o"/>
 
     <View
@@ -165,7 +165,7 @@
         android:tag="9"
         android:text="@android:string/copy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SofaAddrInEthAccount"/>
+        app:layout_constraintTop_toBottomOf="@+id/ProtonAddrInEthAccount"/>
 
     <Button
         android:id="@+id/copyEthereAcccount"
@@ -190,22 +190,22 @@
         app:layout_constraintTop_toBottomOf="@+id/addressOfEthereumAccount"/>
 
     <TextView
-        android:id="@+id/bundSofaNoLabel"
+        android:id="@+id/bundProtonNoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/sofaBoundLabel"
+        android:text="@string/protonBoundLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaBalance"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonBalance"/>
 
     <TextView
-        android:id="@+id/sofaAddrLabel"
+        android:id="@+id/protonAddrLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/sofaLabel"
+        android:text="@string/protonLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ethAddressLabel"/>
 
@@ -234,7 +234,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addressOfEthereumAccountForSeach"/>
 
     <Button
-        android:id="@+id/UnbindSofaAccount"
+        android:id="@+id/UnbindProtonAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -255,9 +255,9 @@
         android:layout_marginTop="16dp"
         android:onClick="onClick"
         android:tag="3"
-        android:text="@string/createSofaAccount"
+        android:text="@string/createProtonAccount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bundSofaNoLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/bundProtonNoLabel"/>
 
     <Button
         android:id="@+id/ImportEthAccount"
@@ -266,7 +266,7 @@
         android:layout_marginTop="16dp"
         android:onClick="onClick"
         android:tag="4"
-        android:text="@string/ImportSofaAccount"
+        android:text="@string/ImportProtonAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boundNum"/>
@@ -279,7 +279,7 @@
         android:layout_marginTop="16dp"
         android:onClick="onClick"
         android:tag="5"
-        android:text="@string/ExportSofaAccount"
+        android:text="@string/ExportProtonAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boundNum"/>
 
@@ -312,13 +312,13 @@
         android:importantForAutofill="no" tools:targetApi="o"/>
 
     <EditText
-        android:id="@+id/SofaAddrInEthAccount"
+        android:id="@+id/ProtonAddrInEthAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="@string/sofaAddressTobeOperatedHint"
+        android:hint="@string/protonAddressTobeOperatedHint"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textSize="12sp"

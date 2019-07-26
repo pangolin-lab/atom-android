@@ -7,10 +7,10 @@ import android.os.Handler;
 import android.os.Message;
 
 public class AccountStatusChangedReceiver extends BroadcastReceiver {
-    public static final String SofaAccountChanged = "com.sofa.receiver.sofaAccount.changed";
-    public static final String VPNStatusChanged = "com.sofa.receiver.vpnstatus.changed";
+    public static final String ProtonAccountChanged = "com.protonnetwork.receiver.ProtonAccount.changed";
+    public static final String VPNStatusChanged = "com.protonnetwork.receiver.vpnstatus.changed";
 
-    public static final int SofaAccountChangedAction = 1;
+    public static final int ProtonAccountChangedAction = 1;
     public static final int EthAccountChangedAction = 2;
     public static final int VpnStatusChangedAction = 3;
 
@@ -30,7 +30,7 @@ public class AccountStatusChangedReceiver extends BroadcastReceiver {
         int action = intent.getIntExtra(ActionKey, 0);
 
         switch (action){
-            case SofaAccountChangedAction:
+            case ProtonAccountChangedAction:
             case EthAccountChangedAction:
                 handler.sendEmptyMessage(action);
                 break;

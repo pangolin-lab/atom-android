@@ -14,7 +14,7 @@ public class EthereumAccount {
     protected String EthAddress;
     protected String CipherTxt;
     protected String ethBalance = "0.00";
-    protected String sofaBalance = "0.00";
+    protected String protonBalance = "0.00";
     protected String boundNo = "0";
     private static EthereumAccount _bean = null;
     public  static final String ADDRESS_KEY = "address";
@@ -47,7 +47,7 @@ public class EthereumAccount {
         }
 
         this.ethBalance = res[0];
-        this.sofaBalance = res[1];
+        this.protonBalance = res[1];
         this.boundNo = res[2];
     }
 
@@ -71,7 +71,7 @@ public class EthereumAccount {
         final String address = "0x" + obj.get(ADDRESS_KEY).getAsString();
         syncNewAccount(address, cipherTxt);
 
-        Intent i = new Intent(AccountStatusChangedReceiver.SofaAccountChanged);
+        Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
         i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.EthAccountChangedAction);
         context.sendBroadcast(i);
         return true;
@@ -105,7 +105,7 @@ public class EthereumAccount {
                 syncNewAccount(address, decodedText);
 
                 utils.ToastTips("导入成功");
-                Intent i = new Intent(AccountStatusChangedReceiver.SofaAccountChanged);
+                Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
                 i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.EthAccountChangedAction);
                 ctx.sendBroadcast(i);
             }

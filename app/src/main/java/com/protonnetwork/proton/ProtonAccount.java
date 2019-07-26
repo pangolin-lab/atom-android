@@ -21,13 +21,13 @@ public class ProtonAccount {
         return  _bean;
     }
 
-    private static final String KEY_FOR_ACC_ADDR = "KEY_FOR_SOFA_ACC_ADDR";
-    private static final String KEY_FOR_ACC_CIPHER = "KEY_FOR_SOFA_ACC_CIPHER";
+    private static final String KEY_FOR_ACC_ADDR = "KEY_FOR_PROTON_ACC_ADDR";
+    private static final String KEY_FOR_ACC_CIPHER = "KEY_FOR_PROTON_ACC_CIPHER";
 
-    public String SofaAddress, CipherTxt, TmpBoundEthAddress;
+    public String ProtonAddress, CipherTxt, TmpBoundEthAddress;
 
     private ProtonAccount(){
-        this.SofaAddress = utils.getString(KEY_FOR_ACC_ADDR, "");
+        this.ProtonAddress = utils.getString(KEY_FOR_ACC_ADDR, "");
         this.CipherTxt = utils.getString(KEY_FOR_ACC_CIPHER, "");
     }
 
@@ -44,19 +44,19 @@ public class ProtonAccount {
 
         syncNewAccount(result[0], result[1]);
 
-        Intent i = new Intent(AccountStatusChangedReceiver.SofaAccountChanged);
-        i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.SofaAccountChangedAction);
+        Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
+        i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.ProtonAccountChangedAction);
         ctx.sendBroadcast(i);
         return  true;
     }
 
     public String AccountToJson(){
-        if (this.SofaAddress == ""){
+        if (this.ProtonAddress == ""){
             return "";
         }
 
         JsonObject obj = new JsonObject();
-        obj.addProperty(ADDRESS_KEY, this.SofaAddress);
+        obj.addProperty(ADDRESS_KEY, this.ProtonAddress);
         obj.addProperty(CIPHER_KEY, this.CipherTxt);
 
         return obj.toString();
@@ -70,7 +70,7 @@ public class ProtonAccount {
 
         final String address = obj.get(ADDRESS_KEY).getAsString();
         final String cipherTxt = obj.get(CIPHER_KEY).getAsString();
-        if (!AndroidLib.isSofaAddress(address)){
+        if (!AndroidLib.isProtonAddress(address)){
             throw new Exception("这不是一个有效的proton地址");
         }
 
@@ -83,29 +83,29 @@ public class ProtonAccount {
                 }
 
                 syncNewAccount(address, cipherTxt);
-                Intent i = new Intent(AccountStatusChangedReceiver.SofaAccountChanged);
-                i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.SofaAccountChangedAction);
+                Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
+                i.putExtra(AccountStatusChangedReceiver.ActionKey, AccountStatusChangedReceiver.ProtonAccountChangedAction);
                 ctx.sendBroadcast(i);
             }
         });
     }
 
     private void syncNewAccount(String address, String cipherTxt){
-        this.SofaAddress = address;
+        this.ProtonAddress = address;
         this.CipherTxt = cipherTxt;
 
-        utils.saveData(KEY_FOR_ACC_ADDR, this.SofaAddress);
+        utils.saveData(KEY_FOR_ACC_ADDR, this.ProtonAddress);
         utils.saveData(KEY_FOR_ACC_CIPHER, this.CipherTxt);
     }
 
     public boolean unlockAccount(String password){
-            return AndroidLib.verifyAccount(this.SofaAddress, this.CipherTxt, password);
+            return AndroidLib.verifyAccount(this.ProtonAddress, this.CipherTxt, password);
     }
 
     public void ReloadBoundEth() {
-        if (this.SofaAddress.equals("")){
+        if (this.ProtonAddress.equals("")){
             return;
         }
-        this.TmpBoundEthAddress = AndroidLib.loadEthAddrBySofaAddr(this.SofaAddress);
+        this.TmpBoundEthAddress = AndroidLib.loadEthAddrByProtonAddr(this.ProtonAddress);
     }
 }

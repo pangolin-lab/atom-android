@@ -20,13 +20,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.protonnetwork.proton.service.ProtonService;
-
 import java.util.List;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -35,11 +32,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         EasyPermissions.RationaleCallbacks, ProtonService.onStatusChangedListener{
     private ImageButton serviceBtn;
     private ProgressBar waitingBar;
+
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == AccountStatusChangedReceiver.SofaAccountChangedAction) {
+            if (msg.what == AccountStatusChangedReceiver.ProtonAccountChangedAction) {
                 reloadBoundEth();
             }else if (msg.what == AccountStatusChangedReceiver.VpnStatusChangedAction){
                 if ( msg.obj != null){
@@ -50,10 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         }
     };
 
-    EditText curSofaAddrTxt, boundEthAddrTxt;
+    EditText curProtonAddrTxt, boundEthAddrTxt;
     AccountStatusChangedReceiver statusReceiver;
     IntentFilter intentFilter;
-    private String SofaAccountPassword = "";
+    private String ProtonAccountPassword = "";
 
     TextView statusTips;
     @Override
@@ -67,13 +65,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         waitingBar = findViewById(R.id.waitingTips);
         waitingBar.setVisibility(View.GONE);
 
-        curSofaAddrTxt = findViewById(R.id.sofaAddressCurrent);
-        boundEthAddrTxt = findViewById(R.id.sofaBindEthAddr);
+        curProtonAddrTxt = findViewById(R.id.protonAddressCurrent);
+        boundEthAddrTxt = findViewById(R.id.protonBindEthAddr);
 
-        statusTips = findViewById(R.id.SofaNetworkStatus);
+        statusTips = findViewById(R.id.ProtonNetworkStatus);
 
         statusReceiver = new AccountStatusChangedReceiver(mHandler);
-        intentFilter = new IntentFilter(AccountStatusChangedReceiver.SofaAccountChanged);
+        intentFilter = new IntentFilter(AccountStatusChangedReceiver.ProtonAccountChanged);
         intentFilter.addAction(AccountStatusChangedReceiver.VPNStatusChanged);
 
         ProtonService.addOnStatusChangedListener(this);
@@ -110,28 +108,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 return;
             }
 
-            loadSofaAccountFromGalleryQRCode(data.getData());
-        } else if (utils.RC_VPN_RIGHT == requestCode){
+            loadAccountFromGalleryQRCode(data.getData());
 
+        } else if (utils.RC_VPN_RIGHT == requestCode){
             if (resultCode != RESULT_OK){
+                utils.ToastTips("取消Vpn授权");
                 return;
             }
-
             showWaitingRing();
             final Intent intent = new Intent(this, ProtonService.class);
-            intent.putExtra(ProtonService.DATA_PASSWORD, this.SofaAccountPassword);
-
-            new Thread(){
-                @Override
-                public void run(){
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    MainActivity.this.startService(intent);
-                }
-            }.start();
+            intent.putExtra(ProtonService.DATA_PASSWORD, this.ProtonAccountPassword);
+            startService(intent);
 
         }else{
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -151,7 +138,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         }
     }
 
-    void loadSofaAccountFromGalleryQRCode(Uri uri) {
+    void loadAccountFromGalleryQRCode(Uri uri) {
 
         if (null == uri) {
             utils.ToastTips("没有导入正确图片");
@@ -177,9 +164,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             utils.ToastTips("请关闭VPN之后查询区块链信息");
             return;
         }
-        final String sofaAddr = ProtonAccount.Instance().SofaAddress;
-        curSofaAddrTxt.setText(sofaAddr);
-        if (sofaAddr.equals("")){
+        final String protonAddr = ProtonAccount.Instance().ProtonAddress;
+        curProtonAddrTxt.setText(protonAddr);
+        if (protonAddr.equals("")){
             return;
         }
         showWaitingRing();
@@ -194,12 +181,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
     }
 
     void refreshUI(){
-        final String sofaAddr = ProtonAccount.Instance().SofaAddress;
+        final String protonAddr = ProtonAccount.Instance().ProtonAddress;
         final String ethAddr = ProtonAccount.Instance().TmpBoundEthAddress;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                curSofaAddrTxt.setText(sofaAddr);
+                curProtonAddrTxt.setText(protonAddr);
                 boundEthAddrTxt.setText(ethAddr);
                 if (ProtonService.IsRunning) {
                     serviceBtn.setImageResource(R.drawable.running);
@@ -218,11 +205,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
     public void onClick(View v) {
         switch (v.getTag().toString()) {
             case "1":
-                createNewSofaAccount();
+                createNewAccount();
                 break;
 
             case "2":
-                ImportSofaAccount();
+                ImportAccount();
                 break;
 
             case "3":
@@ -230,11 +217,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 break;
 
             case "4":
-                String sofaAddr = curSofaAddrTxt.getText().toString();
-                if (sofaAddr.equals("")){
+                String protonAddr = curProtonAddrTxt.getText().toString();
+                if (protonAddr.equals("")){
                     return;
                 }
-                utils.CopyToMemory(sofaAddr);
+                utils.CopyToMemory(protonAddr);
                 break;
 
             case "5":
@@ -242,7 +229,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 break;
 
             case "7":
-                startSofaService();
+                startVpnService();
                 break;
 
             case "8":
@@ -254,7 +241,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 break;
 
             case "17":
-                stopSofaService();
+                stopVpnService();
                 break;
 
             case "6":
@@ -264,7 +251,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
     }
 
 
-    void ImportSofaAccount(){
+    void ImportAccount(){
         if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             EasyPermissions.requestPermissions(
                     this,
@@ -289,10 +276,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             }
         };
 
-        String accAddr = ProtonAccount.Instance().SofaAddress;
+        String accAddr = ProtonAccount.Instance().ProtonAddress;
         if (!accAddr.equals("")){
             utils.ShowOkOrCancelAlert(this,"确定要替换吗？",
-                    "导入账号会替换当前sofa账号，请确保您已经保存好当前账号",callBack);
+                    "导入账号会替换当前proton账号，请确保您已经保存好当前账号",callBack);
             return;
         }
         showImportQRChoice();
@@ -310,7 +297,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                     IntentIntegrator ii = new IntentIntegrator(MainActivity.this);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
-                    ii.setPrompt("请扫描Sofa账号二维码"); //底部的提示文字，设为""可以置空
+                    ii.setPrompt("请扫描Proton账号二维码"); //底部的提示文字，设为""可以置空
                     ii.setCameraId(0); //前置或者后置摄像头
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
@@ -348,14 +335,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                utils.SaveStringQRCode(getContentResolver(), accountData, "Sofa账号");
+                utils.SaveStringQRCode(getContentResolver(), accountData, "Proton账号");
                 hideWaitingRing();
             }
         });
         th.start();
     }
 
-    void createNewSofaAccount(){
+    void createNewAccount(){
 
         final AlertDialogOkCallBack callBack = new AlertDialogOkCallBack(){
             @Override
@@ -369,10 +356,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             }
         };
 
-        String accAddr = ProtonAccount.Instance().SofaAddress;
+        String accAddr = ProtonAccount.Instance().ProtonAddress;
         if (!accAddr.equals("")){
             utils.ShowOkOrCancelAlert(this,"确定要替换吗？",
-                    "创建账号会替换当前sofa账号，请确保您已经保存好当前账号",
+                    "创建账号会替换当前Proton账号，请确保您已经保存好当前账号",
                     new AlertDialogOkCallBack(){
                         @Override
                         public void OkClicked(String parameter) {
@@ -407,16 +394,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         });
     }
 
-    void startSofaService(){
-        String sofaAddress = ProtonAccount.Instance().SofaAddress;
-        if (sofaAddress.equals("")){
-            utils.ToastTips("请首先创建sofa网络账号");
+    void startVpnService(){
+        String protonAddress = ProtonAccount.Instance().ProtonAddress;
+        if (protonAddress.equals("")){
+            utils.ToastTips("请首先创建proton网络账号");
             return;
         }
 
         String ethAddr = boundEthAddrTxt.getText().toString();
         if (!utils.validEthAddress(ethAddr)){
-            utils.ToastTips("该Sofa账号尚未被以太坊地址绑定");
+            utils.ToastTips("该Proton账号尚未被以太坊地址绑定");
             return;
         }
 
@@ -425,10 +412,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
             @Override
             public void OkClicked(String password) {
                 if (!ProtonAccount.Instance().unlockAccount(password)){
-                    utils.ToastTips("解锁Sofa账号失败");
+                    utils.ToastTips("解锁Proton账号失败");
                     return;
                 }
-                SofaAccountPassword = password;
+                ProtonAccountPassword = password;
 
                 Intent intent = VpnService.prepare(MainActivity.this);
                 if (intent != null) {
@@ -442,7 +429,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         utils.showPassWord(this, callBack);
     }
 
-    void stopSofaService(){
+    void stopVpnService(){
         showWaitingRing();
         ProtonService.Stop();
     }

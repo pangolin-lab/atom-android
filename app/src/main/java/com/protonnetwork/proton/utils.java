@@ -45,7 +45,7 @@ public final class utils {
     public static final String EthScanBaseUrl = "https://ropsten.etherscan.io/tx/";
 
     static Context appContext = ProtonApplication.getAppContext();
-    static SharedPreferences sharedPref =  appContext.getSharedPreferences("SofaManager", Context.MODE_PRIVATE);
+    static SharedPreferences sharedPref =  appContext.getSharedPreferences("ProtonaManager", Context.MODE_PRIVATE);
 
     public static void saveData(String key, String value){
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -155,7 +155,7 @@ public final class utils {
 
     public static void CopyToMemory(String src) {
         ClipboardManager clipboard = (ClipboardManager) appContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Sofa memory string", src);
+        ClipData clip = ClipData.newPlainText("Proton memory string", src);
         clipboard.setPrimaryClip(clip);
         utils.ToastTips("Copy success!");
     }
@@ -172,7 +172,7 @@ public final class utils {
             ContentValues values=new ContentValues();
             values.put(MediaStore.Images.Media.TITLE, "ProtonAccount");
             values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-            values.put(MediaStore.Images.Media.DESCRIPTION,"The QRCode of sofa account");
+            values.put(MediaStore.Images.Media.DESCRIPTION,"The QRCode of proton account");
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
             values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
             values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());

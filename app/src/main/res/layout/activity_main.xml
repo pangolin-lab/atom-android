@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/sofaBindEthAddr"
+        android:id="@+id/protonBindEthAddr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -18,7 +18,7 @@
         android:background="#CED0CF"
         android:ems="10"
         android:enabled="false"
-        android:hint="@string/this_is_the_manager_ethereum_account_for_current_sofa_address"
+        android:hint="@string/this_is_the_manager_ethereum_account_for_current_proton_address"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
         android:lines="2"
@@ -39,7 +39,7 @@
         android:tag="5"
         android:text="@string/refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaBindEthAddr"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonBindEthAddr"/>
 
     <ImageButton
         android:id="@+id/serviceSwitch"
@@ -50,7 +50,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:background="#0d80BD43"
-        android:contentDescription="@string/sofaserviceswitch"
+        android:contentDescription="@string/protonserviceswitch"
         android:cropToPadding="true"
         android:drawingCacheQuality="high"
         android:fadingEdge="horizontal|vertical"
@@ -63,7 +63,7 @@
         app:layout_anchorGravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SofaNetworkStatus"
+        app:layout_constraintTop_toBottomOf="@+id/ProtonNetworkStatus"
         app:srcCompat="@drawable/down"/>
 
     <View
@@ -89,22 +89,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createSofaAddrBtn"/>
+        app:layout_constraintTop_toBottomOf="@+id/createProtonAddrBtn"/>
 
     <TextView
-        android:id="@+id/sofaAddrLabel"
+        android:id="@+id/protonAddrLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="@string/sofa_address"
+        android:text="@string/proton_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"/>
 
     <EditText
-        android:id="@+id/sofaAddressCurrent"
+        android:id="@+id/protonAddressCurrent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -113,18 +113,18 @@
         android:background="#CED0CF"
         android:ems="10"
         android:enabled="false"
-        android:hint="@string/this_is_for_Sofa_block_chain_addres"
+        android:hint="@string/this_is_for_Proton_block_chain_addres"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
         android:lines="2"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/copySofaAddrBtn"
+        app:layout_constraintEnd_toStartOf="@+id/copyProtonAddrBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaAddrLabel"
+        app:layout_constraintTop_toBottomOf="@+id/protonAddrLabel"
         tools:targetApi="o"/>
 
     <TextView
-        android:id="@+id/SofaNetworkStatus"
+        android:id="@+id/ProtonNetworkStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -137,7 +137,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/copySofaAddrBtn"
+        android:id="@+id/copyProtonAddrBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
@@ -146,7 +146,7 @@
         android:tag="4"
         android:text="@android:string/copy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaAddrLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonAddrLabel"/>
 
     <ProgressBar
         android:id="@+id/waitingTips"
@@ -164,40 +164,40 @@
         android:focusable="true"/>
 
     <Button
-        android:id="@+id/createSofaAddrBtn"
+        android:id="@+id/createProtonAddrBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:onClick="onClick"
         android:tag="1"
-        android:text="@string/createSofaAccount"
+        android:text="@string/createProtonAccount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaAddressCurrent"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonAddressCurrent"/>
 
     <Button
-        android:id="@+id/ImportSofaAddrBtn"
+        android:id="@+id/ImportProtonAddrBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="onClick"
         android:tag="2"
-        android:text="@string/ImportSofaAccount"
-        app:layout_constraintEnd_toStartOf="@+id/ExportSofaAddrBtn"
-        app:layout_constraintStart_toEndOf="@+id/createSofaAddrBtn"
-        app:layout_constraintTop_toBottomOf="@+id/sofaAddressCurrent"/>
+        android:text="@string/ImportProtonAccount"
+        app:layout_constraintEnd_toStartOf="@+id/ExportProtonAddrBtn"
+        app:layout_constraintStart_toEndOf="@+id/createProtonAddrBtn"
+        app:layout_constraintTop_toBottomOf="@+id/protonAddressCurrent"/>
 
     <Button
-        android:id="@+id/ExportSofaAddrBtn"
+        android:id="@+id/ExportProtonAddrBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:onClick="onClick"
         android:tag="3"
-        android:text="@string/ExportSofaAccount"
+        android:text="@string/ExportProtonAccount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaAddressCurrent"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonAddressCurrent"/>
 
     <Button
         android:id="@+id/AdvanceEthereumOpBtn"
@@ -209,21 +209,21 @@
         android:tag="6"
         android:text="@string/ethereumOpt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaBindEthAddr"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonBindEthAddr"/>
 
     <TextView
         android:id="@+id/ethInfoInMainPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/sofaBindedEthAccLabel"
+        android:text="@string/protonBindedEthAccLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/divider2"/>
 
     <TextView
-        android:id="@+id/sofaTipsLabel"
+        android:id="@+id/protonTipsLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -247,7 +247,7 @@
         android:text="@android:string/copy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sofaBindEthAddr"/>
+        app:layout_constraintTop_toBottomOf="@+id/protonBindEthAddr"/>
 
 
 </android.support.constraint.ConstraintLayout>
