@@ -46,7 +46,6 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
     public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed_debug.quantum";
 //    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
 
-    private Thread m_ReadingThread;
     private Thread m_VPNThread;
     private ParcelFileDescriptor mInterface;
     private PendingIntent mConfigureIntent;
@@ -200,7 +199,7 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
 
             IsRunning = true;
             PacketReader reader = new PacketReader(inputStream);
-            m_ReadingThread = new Thread(reader);
+            Thread m_ReadingThread = new Thread(reader);
             m_ReadingThread.start();
 
             m_VPNThread.start();
@@ -246,7 +245,7 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
 
     @Override
     public boolean byPass(int fd) {
-//        Log.i(TAG, "bypass: fd=" + fd);
+        Log.i(TAG, "bypass: fd=" + fd);
         return this.protect(fd);
     }
 
