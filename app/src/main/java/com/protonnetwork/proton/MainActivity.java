@@ -109,9 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 utils.ToastTips("未读取数据");
                 return;
             }
-
             loadAccountFromGalleryQRCode(data.getData());
-
         } else if (utils.RC_VPN_RIGHT == requestCode){
             if (resultCode != RESULT_OK){
                 utils.ToastTips("取消Vpn授权");
@@ -171,6 +169,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         if (protonAddr.equals("")){
             return;
         }
+
         showWaitingRing();
         new Thread(new Runnable() {
                 @Override

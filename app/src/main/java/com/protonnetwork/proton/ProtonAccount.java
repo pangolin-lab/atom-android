@@ -73,7 +73,6 @@ public class ProtonAccount {
         if (!AndroidLib.isProtonAddress(address)){
             throw new Exception("这不是一个有效的proton地址");
         }
-
         utils.showPassWord(ctx, new AlertDialogOkCallBack() {
             @Override
             public void OkClicked(String password) {
@@ -81,6 +80,7 @@ public class ProtonAccount {
                     utils.ToastTips("解锁账号失败");
                     return;
                 }
+                utils.ToastTips("导入成功:"+address);
 
                 syncNewAccount(address, cipherTxt);
                 Intent i = new Intent(AccountStatusChangedReceiver.ProtonAccountChanged);
