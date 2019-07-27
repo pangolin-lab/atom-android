@@ -26,3 +26,5 @@ hs_err_pid*
 app/.gitignore
 gradle/
 local.properties
+build/
+app/debug/
