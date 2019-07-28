@@ -52,7 +52,7 @@ public class EthereumAccount {
     }
 
     public Boolean CreateNewAccount(Context context, String pwd) {
-        File file = context.getCacheDir();
+            File file = context.getCacheDir();
         if (file == null){
             return false;
         }
