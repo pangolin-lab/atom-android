@@ -190,11 +190,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 curProtonAddrTxt.setText(protonAddr);
                 boundEthAddrTxt.setText(ethAddr);
                 if (ProtonService.IsRunning) {
-                    serviceBtn.setImageResource(R.drawable.running);
+                    serviceBtn.setImageResource(R.drawable.running_on);
                     serviceBtn.setTag(17);
                     statusTips.setText("使用中");
                 } else {
-                    serviceBtn.setImageResource(R.drawable.down);
+                    serviceBtn.setImageResource(R.drawable.running_off);
                     serviceBtn.setTag(7);
                     statusTips.setText("未接入");
                 }
