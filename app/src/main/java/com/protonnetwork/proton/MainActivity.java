@@ -88,6 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
     @Override
     protected void onResume() {
         super.onResume();
+        refreshUI();
         reloadBoundEth();
         registerReceiver(statusReceiver, intentFilter);
     }
