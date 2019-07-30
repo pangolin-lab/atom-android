@@ -130,7 +130,7 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
         Notification.Builder builder = new Notification.Builder(this.getApplicationContext()); //获取一个Notification构造器
         builder.setContentIntent(mConfigureIntent)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_launcher))
-                .setContentTitle("虫洞区块链网络")
+                .setContentTitle("质子区块链网络")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText("proton BlockChain network")
                 .setWhen(System.currentTimeMillis());
