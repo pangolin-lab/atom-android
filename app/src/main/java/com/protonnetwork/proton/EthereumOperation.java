@@ -23,7 +23,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 
 public class EthereumOperation extends Activity implements View.OnClickListener{
 
-    EditText curEthAccountTxt, ethBalanceTxt, protonBalanceTxt, operatedProtonAccountTxt,boundEthAddrTxt, boundNoTxt;
+    EditText curEthAccountTxt, ethBalanceTxt, operatedProtonAccountTxt,boundEthAddrTxt, boundNoTxt;
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler(){
         @Override
@@ -45,7 +45,6 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
 
         curEthAccountTxt = findViewById(R.id.addressOfEthereumAccount);
         ethBalanceTxt = findViewById(R.id.ethereumBalance);
-        protonBalanceTxt = findViewById(R.id.protonBalance);
         operatedProtonAccountTxt = findViewById(R.id.ProtonAddrInEthAccount);
         boundEthAddrTxt = findViewById(R.id.addressOfEthereumAccountForSeach);
         boundNoTxt = findViewById(R.id.boundNum);
@@ -396,7 +395,6 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                 String address = EthereumAccount.Instance().EthAddress;
                 curEthAccountTxt.setText(address);
                 ethBalanceTxt.setText(EthereumAccount.Instance().ethBalance);
-                protonBalanceTxt.setText(EthereumAccount.Instance().protonBalance);
                 boundNoTxt.setText(EthereumAccount.Instance().boundNo);
 
             }

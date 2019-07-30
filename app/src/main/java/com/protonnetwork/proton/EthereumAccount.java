@@ -14,7 +14,6 @@ public class EthereumAccount {
     protected String EthAddress;
     protected String CipherTxt;
     protected String ethBalance = "0.00";
-    protected String protonBalance = "0.00";
     protected String boundNo = "0";
     private static EthereumAccount _bean = null;
     public  static final String ADDRESS_KEY = "address";
@@ -42,13 +41,12 @@ public class EthereumAccount {
 
         String balances = AndroidLib.ethBindings(this.EthAddress);
         String[] res = balances.split(AndroidLib.Separator);
-        if (res.length != 3) {
+        if (res.length != 2) {
             return;
         }
 
         this.ethBalance = res[0];
-        this.protonBalance = res[1];
-        this.boundNo = res[2];
+        this.boundNo = res[1];
     }
 
     public Boolean CreateNewAccount(Context context, String pwd) {

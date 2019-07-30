@@ -53,7 +53,7 @@
     <string name="ethereumBalance">以太坊余额</string>
     <string name="ethereumAddress">以太坊钱包地址</string>
     <string name="ethLabel">ETH:</string>
-    <string name="protonBoundLabel">当前以太坊钱包已绑定Proton地址数:</string>
+    <string name="protonBoundLabel">已绑定Proton地址数:</string>
     <string name="protonLabel">Proton:</string>
     <string name="bindActionTxt">绑定</string>
     <string name="SearchActionTxt">查询</string>
