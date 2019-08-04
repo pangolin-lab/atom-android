@@ -101,7 +101,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/protonAddrLabel" />
 
                 <Button
-                    android:id="@+id/createEthAccount"
+                    android:id="@+id/createProtonAddrBtn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/space_21"
                     android:layout_marginStart="@dimen/space_17"
@@ -110,18 +110,18 @@
                     android:drawableLeft="@drawable/square_16b0cc"
                     android:onClick="onClick"
                     android:paddingLeft="@dimen/space_20"
-                    android:tag="3"
+                    android:tag="1"
                     android:text="@string/createProtonAccount"
                     android:textColor="@color/color_ffffff"
                     android:textSize="@dimen/text_size_12"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/ImportEthAccount"
+                    app:layout_constraintEnd_toStartOf="@+id/ImportProtonAddrBtn"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/copyProtonAddrBtn" />
 
                 <Button
-                    android:id="@+id/ImportEthAccount"
+                    android:id="@+id/ImportProtonAddrBtn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/space_21"
                     android:layout_marginStart="@dimen/space_2"
@@ -130,16 +130,16 @@
                     android:drawableLeft="@drawable/square_90c88b"
                     android:onClick="onClick"
                     android:paddingLeft="@dimen/space_20"
-                    android:tag="4"
+                    android:tag="2"
                     android:text="@string/ImportProtonAccount"
                     android:textColor="@color/color_ffffff"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/ExportEthAccount"
-                    app:layout_constraintStart_toEndOf="@+id/createEthAccount"
+                    app:layout_constraintEnd_toStartOf="@+id/ExportProtonAddrBtn"
+                    app:layout_constraintStart_toEndOf="@+id/createProtonAddrBtn"
                     app:layout_constraintTop_toBottomOf="@+id/copyProtonAddrBtn" />
 
                 <Button
-                    android:id="@+id/ExportEthAccount"
+                    android:id="@+id/ExportProtonAddrBtn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/space_21"
                     android:layout_marginStart="@dimen/space_2"
@@ -149,12 +149,12 @@
                     android:drawableLeft="@drawable/square_7886ff"
                     android:onClick="onClick"
                     android:paddingLeft="@dimen/space_20"
-                    android:tag="5"
+                    android:tag="3"
                     android:text="@string/ExportProtonAccount"
                     android:textColor="@color/color_ffffff"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ImportEthAccount"
+                    app:layout_constraintStart_toEndOf="@+id/ImportProtonAddrBtn"
                     app:layout_constraintTop_toBottomOf="@+id/copyProtonAddrBtn" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -278,7 +278,6 @@
                 android:drawableLeft="@drawable/square_16b0cc"
                 android:onClick="onClick"
                 android:paddingLeft="@dimen/space_22"
-
                 android:tag="5"
                 android:text="@string/refresh"
                 android:textColor="@color/color_ffffff"
