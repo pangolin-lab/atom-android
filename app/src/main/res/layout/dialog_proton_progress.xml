@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/shape_rectangle_round_10dp_bac7d6">
+
+    <RelativeLayout android:layout_width="@dimen/space_110"
+                    android:layout_height="@dimen/space_90">
+
+        <FrameLayout android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerInParent="true"
+                     android:layout_above="@+id/content_tv">
+
+            <com.protonnetwork.proton.dialog.LoadingProgressBar
+                    android:id="@+id/mapping_progress_iv"
+                    android:layout_width="@dimen/space_29"
+                    android:layout_height="@dimen/space_29"
+                    android:layout_gravity="center"/>
+
+            <ImageView
+                    android:id="@+id/mapping_icon_iv"
+                    android:layout_width="@dimen/space_40"
+                    android:layout_height="@dimen/space_40"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+        </FrameLayout>
+
+        <TextView
+                android:id="@+id/content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_ffffff"
+                android:text="@string/loading"
+                android:layout_alignParentBottom="true"
+                android:textSize="@dimen/text_size_13"
+                android:layout_marginBottom="@dimen/space_15"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_5"/>
+    </RelativeLayout>
+
+</RelativeLayout>

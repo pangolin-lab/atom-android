@@ -17,15 +17,17 @@ import android.widget.ProgressBar;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.protonnetwork.proton.base.BaseActivity;
+import com.protonnetwork.proton.dialog.ProtonProgressDialog;
 
 import androidLib.AndroidLib;
 import pub.devrel.easypermissions.AppSettingsDialog;
 
-public class EthereumOperation extends Activity implements View.OnClickListener{
-
-    EditText curEthAccountTxt, ethBalanceTxt, operatedProtonAccountTxt,boundEthAddrTxt, boundNoTxt;
+public class EthereumOperation extends BaseActivity implements View.OnClickListener {
+    private ProtonProgressDialog mProtonProgressDialog;
+    EditText curEthAccountTxt, ethBalanceTxt, operatedProtonAccountTxt, boundEthAddrTxt, boundNoTxt;
     @SuppressLint("HandlerLeak")
-    public Handler mHandler = new Handler(){
+    public Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == AccountStatusChangedReceiver.EthAccountChangedAction) {
@@ -36,7 +38,6 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
 
     AccountStatusChangedReceiver statusReceiver;
     IntentFilter intentFilter;
-    private ProgressBar waitingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,6 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         boundEthAddrTxt = findViewById(R.id.addressOfEthereumAccountForSeach);
         boundNoTxt = findViewById(R.id.boundNum);
 
-        waitingBar = findViewById(R.id.waitingTips);
-        waitingBar.setVisibility(View.GONE);
 
         statusReceiver = new AccountStatusChangedReceiver(mHandler);
         intentFilter = new IntentFilter(AccountStatusChangedReceiver.ProtonAccountChanged);
@@ -74,33 +73,33 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
             utils.ToastTips("returned from setting!");
-        }else if (utils.RC_SELECT_FROM_GALLARY == requestCode){
-            if (resultCode != RESULT_OK || null == data){
+        } else if (utils.RC_SELECT_FROM_GALLARY == requestCode) {
+            if (resultCode != RESULT_OK || null == data) {
                 utils.ToastTips("未读取数据");
                 return;
             }
 
             loadEthAccountFromGalleryQRCode(data.getData());
 
-        } else{
+        } else {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            if(result == null) {
+            if (result == null) {
                 return;
             }
-            if(result.getContents() == null) {
+            if (result.getContents() == null) {
                 utils.ToastTips("无效扫码");
                 return;
             }
             try {
                 String decodedText = result.getContents();
                 EthereumAccount.Instance().ParseAccount(this, decodedText);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 utils.ToastTips("导入账号失败:" + ex.getLocalizedMessage());
             }
         }
     }
 
-    void loadEthAccountFromGalleryQRCode(Uri uri){
+    void loadEthAccountFromGalleryQRCode(Uri uri) {
         if (null == uri) {
             utils.ToastTips("没有导入正确图片");
             return;
@@ -110,7 +109,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             String decodedText = utils.ParseQRCodeFile(uri, getContentResolver());
             EthereumAccount.Instance().ParseAccount(this, decodedText);
         } catch (Exception e) {
-            utils.ToastTips("导入账号二维码失败:"+e.getLocalizedMessage());
+            utils.ToastTips("导入账号二维码失败:" + e.getLocalizedMessage());
             e.printStackTrace();
         }
     }
@@ -122,7 +121,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         switch (v.getTag().toString()) {
             case "1":
                 String ethAcc = curEthAccountTxt.getText().toString();
-                if (ethAcc.equals("")){
+                if (ethAcc.equals("")) {
                     return;
                 }
                 utils.CopyToMemory(ethAcc);
@@ -130,7 +129,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
 
             case "9":
                 ethAcc = boundEthAddrTxt.getText().toString();
-                if (ethAcc.equals("")){
+                if (ethAcc.equals("")) {
                     return;
                 }
                 utils.CopyToMemory(ethAcc);
@@ -164,15 +163,15 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         }
     }
 
-    boolean checkProtonAndEthAddress(){
+    boolean checkProtonAndEthAddress() {
         String protonAddress = operatedProtonAccountTxt.getText().toString();
-        if (protonAddress.equals("")){
+        if (protonAddress.equals("")) {
             utils.ToastTips("Proton地址不能为空");
             return false;
         }
 
         String ethAddress = curEthAccountTxt.getText().toString();
-        if (ethAddress.equals("")){
+        if (ethAddress.equals("")) {
             utils.ToastTips("请设置本操作需要用到的以太坊地址");
             return false;
         }
@@ -180,18 +179,18 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         return true;
     }
 
-    void searchBindings(){
+    void searchBindings() {
 
         final String protonAddress = operatedProtonAccountTxt.getText().toString();
-        if (protonAddress.equals("")){
+        if (protonAddress.equals("")) {
             utils.ToastTips("Proton地址不能为空");
             return;
         }
 
         showWaitingRing();
-        Thread th = new Thread(){
+        Thread th = new Thread() {
             @Override
-            public void  run(){
+            public void run() {
                 final String ethAddr = AndroidLib.loadEthAddrByProtonAddr(protonAddress);
                 hideWaitingRing();
 
@@ -206,9 +205,9 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         th.start();
     }
 
-    void unbindProtonAddress(){
+    void unbindProtonAddress() {
 
-        if(!checkProtonAndEthAddress()){
+        if (!checkProtonAndEthAddress()) {
             return;
         }
 
@@ -219,20 +218,20 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             @Override
             public void OkClicked(String password) {
                 String ret = AndroidLib.unbindProtonAddress(protonAddress, CipherTxt, password);
-                if (!ret.startsWith("0x")){
+                if (!ret.startsWith("0x")) {
                     utils.ToastTips("解除绑定失败:" + ret);
                     hideWaitingRing();
                     return;
                 }
 
                 utils.ToastTips("解除绑定成功，正在打包:" + ret);
-                updateAndShow( utils.EthScanBaseUrl + ret);
+                updateAndShow(utils.EthScanBaseUrl + ret);
             }
         });
     }
 
-    void bindProtonAddress(){
-        if(!checkProtonAndEthAddress()){
+    void bindProtonAddress() {
+        if (!checkProtonAndEthAddress()) {
             return;
         }
 
@@ -240,8 +239,8 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         showWaitingRing();
 
         final String ethAddr = AndroidLib.loadEthAddrByProtonAddr(protonAddress);
-        if (utils.validEthAddress(ethAddr)){
-            utils.ToastTips("该地址已经被["+ethAddr+"]绑定");
+        if (utils.validEthAddress(ethAddr)) {
+            utils.ToastTips("该地址已经被[" + ethAddr + "]绑定");
             hideWaitingRing();
             return;
         }
@@ -251,19 +250,19 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             @Override
             public void OkClicked(String password) {
                 String ret = AndroidLib.bindProtonAddress(protonAddress, CipherTxt, password);
-                if (!ret.startsWith("0x")){
+                if (!ret.startsWith("0x")) {
                     utils.ToastTips("绑定失败:" + ret);
                     hideWaitingRing();
                     return;
                 }
 
                 utils.ToastTips("绑定成功，正在打包:" + ret);
-                updateAndShow( utils.EthScanBaseUrl + ret);
+                updateAndShow(utils.EthScanBaseUrl + ret);
             }
         });
     }
 
-    void updateAndShow(String url){
+    void updateAndShow(String url) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
@@ -274,8 +273,8 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         sendBroadcast(i);
     }
 
-    void importEthAddress(){
-        AlertDialogOkCallBack callBack = new AlertDialogOkCallBack(){
+    void importEthAddress() {
+        AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
             @Override
             public void OkClicked(String parameter) {
                 showImportQRChoice();
@@ -283,16 +282,16 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         };
 
         String ethAcc = curEthAccountTxt.getText().toString();
-        if (!ethAcc.equals("")){
-            utils.ShowOkOrCancelAlert(this,"确定要替换吗？",
-                    "导入账号会替换当前以太坊账号，请确保您已经保存好当前账号",callBack);
+        if (!ethAcc.equals("")) {
+            utils.ShowOkOrCancelAlert(this, "确定要替换吗？",
+                    "导入账号会替换当前以太坊账号，请确保您已经保存好当前账号", callBack);
             return;
         }
         showImportQRChoice();
     }
 
-    void showImportQRChoice(){
-        final String[] listItems = {"扫描二维码读取","从相册读取", "取消"};
+    void showImportQRChoice() {
+        final String[] listItems = {"扫描二维码读取", "从相册读取", "取消"};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         mBuilder.setTitle("请选择导入方式");
 
@@ -300,8 +299,8 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if (0 == i){
-                    if (!utils.checkCamera(EthereumOperation.this)){
+                if (0 == i) {
+                    if (!utils.checkCamera(EthereumOperation.this)) {
                         return;
                     }
 
@@ -313,14 +312,14 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
 
-                }else if (1 == i){
-                    if (!utils.checkStorage(EthereumOperation.this)){
+                } else if (1 == i) {
+                    if (!utils.checkStorage(EthereumOperation.this)) {
                         return;
                     }
 
                     Intent pi = new Intent(Intent.ACTION_GET_CONTENT,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pi , utils.RC_SELECT_FROM_GALLARY);
+                    startActivityForResult(pi, utils.RC_SELECT_FROM_GALLARY);
                 }
                 dialogInterface.dismiss();
             }
@@ -330,8 +329,8 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         mDialog.show();
     }
 
-    void exportEthAddress(){
-        if (!utils.checkStorage(this)){
+    void exportEthAddress() {
+        if (!utils.checkStorage(this)) {
             return;
         }
 
@@ -352,17 +351,17 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         th.start();
     }
 
-    void createNewEthAccount(){
-        final AlertDialogOkCallBack callBack = new AlertDialogOkCallBack(){
+    void createNewEthAccount() {
+        final AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
             @Override
             public void OkClicked(final String pwd) {
                 showWaitingRing();
 
                 Thread th = new Thread(new Runnable() {
                     @Override
-                    public void run(){
+                    public void run() {
                         Boolean ret = EthereumAccount.Instance().CreateNewAccount(EthereumOperation.this, pwd);
-                        if (!ret){
+                        if (!ret) {
                             utils.ToastTips("创建以太坊账号失败");
                         }
                         utils.ToastTips("创建以太坊账号成功");
@@ -373,10 +372,10 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         };
 
         String ethAcc = curEthAccountTxt.getText().toString();
-        if (!ethAcc.equals("")){
-            utils.ShowOkOrCancelAlert(this,"确定要替换吗？",
+        if (!ethAcc.equals("")) {
+            utils.ShowOkOrCancelAlert(this, "确定要替换吗？",
                     "创建账号会替换当前以太坊账号，请确保您已经保存好当前账号",
-                    new AlertDialogOkCallBack(){
+                    new AlertDialogOkCallBack() {
                         @Override
                         public void OkClicked(String parameter) {
                             utils.showDoublePassWord(EthereumOperation.this, callBack);
@@ -401,7 +400,7 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         });
     }
 
-    void reloadEthInfo(){
+    void reloadEthInfo() {
         showWaitingRing();
         new Thread(new Runnable() {
             @Override
@@ -413,23 +412,26 @@ public class EthereumOperation extends Activity implements View.OnClickListener{
         }).start();
     }
 
-    void showWaitingRing(){
+    void showWaitingRing() {
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                waitingBar.setVisibility(View.VISIBLE);
+                if (mProtonProgressDialog == null) {
+                    mProtonProgressDialog = new ProtonProgressDialog();
+                }
+                showDialogFragment(mProtonProgressDialog, "loading");
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
     }
 
-    void hideWaitingRing(){
+    void hideWaitingRing() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                waitingBar.setVisibility(View.GONE);
+                dismissDialogFragment("loading");
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });

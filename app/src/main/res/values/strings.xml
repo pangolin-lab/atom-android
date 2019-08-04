@@ -28,24 +28,30 @@
     <string name="refresh_proton_network_node">Refresh Proton network node</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="protonserviceswitch">ProtonServiceSwitch</string>
-    <string name="proton_address">Proton网络地址及操作：</string>
+    <string name="proton_address">Proton网络地址及操作</string>
     <string name="proton_address_of_the_proton_block_chain_system">Proton Address of the Proton block chain system</string>
     <string name="unconnected">未接入</string>
     <string name="connected">已接入</string>
     <string name="this_is_the_manager_ethereum_account_for_current_proton_address">This is the manager ethereum account for current Proton address</string>
-    <string name="createProtonAccount">创建</string>
-    <string name="ImportProtonAccount">导入</string>
-    <string name="ExportProtonAccount">导出</string>
+    <string name="createProtonAccount">创 建</string>
+    <string name="ImportProtonAccount">导 入</string>
+    <string name="ExportProtonAccount">导 出</string>
     <string name="ethereumOpt">以太坊高级操作</string>
     <string name="ethereumMoreTips">提示:\n \t1，以太坊高级操作人员需要具备一定区块链基本知识，深刻理解区块链并熟练掌握区块链转账和智能合约调用原理。
         \n\t2，该操作旨在为自己的Proton地址或者其他人的Proton地址抵押一定的Proton币，这样用于Proton账号的人可以使用Proton网络，抵押操作不进行Proton币的转账，只要保证您的以太坊账号下具有N*1024个Proton币即可，N是该地址绑定的Proton账号个数。如果绑定成功后，该以太坊账号发送了Proton币的转出，致使每个Proton地址下可用的Proton币少于1024个，则所有的Proton客户端节点都将无法访问网络
         \n\t3，流量矿机会检查Proton地址对应的以太坊账号下Proton币是否充足。
         \n\t4，客户端与矿机之间通过流量微支付通过，生成以太坊智能合约的挖矿凭证，因此请勿轻易泄露自己客户端Proton账号口令，以免造成Proton资产的损失。
         \n\t5，更多帮助和操作请访问:https://Proton.one</string>
-    <string name="ethOptTips">[以太坊高级操作]按钮仅限于区块链专业人士使用，非专业人士请在专业认识的帮助下操作</string>
+    <string name="ethereumMoreTips1">1.以太坊高级操作人员需要具备一定区块链基本知识，深刻理解区块链并熟练掌握区块链转账和智能合约调用原理。</string>
+    <string name="ethereumMoreTips2">2.该操作旨在为自己的Proton地址或者其他人的Proton地址抵押一定的Proton币，这样用于Proton账号的人可以使用Proton网络，抵押操作不进行Proton币的转账，只要保证您的以太坊账号下具有N*1024个Proton币即可，N是该地址绑定的Proton账号个数。如果绑定成功后，该以太坊账号发送了Proton币的转出，致使每个Proton地址下可用的Proton币少于1024个，则所有的Proton客户端节点都将无法访问网络</string>
+    <string name="ethereumMoreTips3">3.流量矿机会检查Proton地址对应的以太坊账号下Proton币是否充足。</string>
+    <string name="ethereumMoreTips4">4.客户端与矿机之间通过流量微支付通过，生成以太坊智能合约的挖矿凭证，因此请勿轻易泄露自己客户端Proton账号口令，以免造成Proton资产的损失。</string>
+    <string name="ethereumMoreTips5">5.更多帮助和操作请访问:https://Proton.one。\n\n</string>
+    <string name="ethOptTips">以太坊高级操作按钮仅限于区块链专业人士使用，\n非专业人士请在专业认识的帮助下操作</string>
     <string name="refresh">刷新</string>
     <string name="ethereumBasciLabel">以太坊钱包基本信息:</string>
-    <string name="protonBindedEthAccLabel">该Proton账号绑定的以太坊账号信息:</string>
+    <string name="protonBindedEthAccLabel">该Proton账号绑定的</string>
+    <string name="protonBindedEthMsg">以太坊账号信息</string>
     <string name="rationale_extra_write">需要使用读写相册的权限</string>
     <string name="camera">需要访问您的摄像头</string>
     <string name="proton_coin">Proton Coin余额</string>
@@ -53,10 +59,14 @@
     <string name="ethereumBalance">以太坊余额</string>
     <string name="ethereumAddress">以太坊钱包地址</string>
     <string name="ethLabel">ETH:</string>
-    <string name="protonBoundLabel">已绑定Proton地址数:</string>
+    <string name="protonBoundLabel">当前以太坊钱包已绑定Proton地址数:</string>
     <string name="protonLabel">Proton:</string>
     <string name="bindActionTxt">绑定</string>
     <string name="SearchActionTxt">查询</string>
     <string name="unboundActionTxt">解除绑定</string>
-    <string name="protonAddressTobeOperatedHint">待操作的Proton地址</string>
+    <string name="protonAddressTobeOperated">待操作的Proton地址</string>
+    <string name="protonAddressTobeOperatedHint">Proton地址</string>
+    <string name="copy">复 制</string>
+    <string name="loading">加载中&#8230;</string>
+    <string name="tip">提示</string>
 </resources>

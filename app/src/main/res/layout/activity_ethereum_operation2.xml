@@ -81,17 +81,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/ethLabel"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/ethereumBalance"
-                    app:layout_constraintBottom_toBottomOf="@+id/ethereumBalance" />
+                    app:layout_constraintTop_toBottomOf="@+id/copyEthereAcccount" />
 
                 <EditText
                     android:id="@+id/ethereumBalance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/edit_text_bg"
                     android:ems="10"
@@ -104,8 +105,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/RefreshEthereBalance"
                     app:layout_constraintStart_toEndOf="@+id/ethAddressLabel"
-                    app:layout_constraintTop_toTopOf="@+id/RefreshEthereBalance"
-                    app:layout_constraintBottom_toBottomOf="@+id/RefreshEthereBalance"
+                    app:layout_constraintTop_toBottomOf="@+id/copyEthereAcccount"
                     tools:targetApi="o" />
 
                 <Button
@@ -129,11 +129,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/protonBoundLabel"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/boundNum"
-                    app:layout_constraintTop_toTopOf="@+id/boundNum" />
+                    app:layout_constraintTop_toBottomOf="@+id/RefreshEthereBalance" />
 
                 <EditText
                     android:id="@+id/boundNum"
@@ -276,6 +276,7 @@
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/edit_text_bg"
                     android:ems="10"
+                    android:enabled="false"
                     android:hint="@string/protonAddressTobeOperatedHint"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine|text"
@@ -425,8 +426,6 @@
             android:layout_marginStart="@dimen/space_15"
             android:layout_marginTop="@dimen/space_9"
             android:layout_marginEnd="@dimen/space_15"
-            android:paddingTop="@dimen/space_4"
-            android:paddingBottom="@dimen/space_4"
             android:text="@string/ethereumMoreTips2"
             android:lineSpacingExtra="@dimen/space_4"
             android:paddingStart="@dimen/space_18"
@@ -459,8 +458,6 @@
             android:layout_marginTop="@dimen/space_9"
             android:layout_marginEnd="@dimen/space_15"
             android:text="@string/ethereumMoreTips4"
-            android:paddingTop="@dimen/space_4"
-            android:paddingBottom="@dimen/space_4"
             android:lineSpacingExtra="@dimen/space_4"
             android:paddingStart="@dimen/space_18"
             android:background="@color/color_e6ecfd"

@@ -6,22 +6,34 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.media.Image;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.protonnetwork.proton.base.BaseActivity;
+import com.protonnetwork.proton.dialog.ProtonProgressDialog;
 import com.protonnetwork.proton.service.ProtonService;
 
 import java.util.List;
@@ -30,10 +42,10 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends Activity implements View.OnClickListener, EasyPermissions.PermissionCallbacks,
+public class MainActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks, ProtonService.onStatusChangedListener{
     private ImageButton serviceBtn;
-    private ProgressBar waitingBar;
+    private ProtonProgressDialog mProtonProgressDialog;
 
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler(){
@@ -55,7 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
     IntentFilter intentFilter;
     private String ProtonAccountPassword = "";
 
-    TextView statusTips;
+    ImageView statusTips;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +76,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         serviceBtn = findViewById(R.id.serviceSwitch);
         serviceBtn.setOnClickListener(this);
 
-        waitingBar = findViewById(R.id.waitingTips);
-        waitingBar.setVisibility(View.GONE);
+
 
         curProtonAddrTxt = findViewById(R.id.protonAddressCurrent);
         boundEthAddrTxt = findViewById(R.id.protonBindEthAddr);
@@ -193,11 +204,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
                 if (ProtonService.IsRunning) {
                     serviceBtn.setImageResource(R.drawable.running_on);
                     serviceBtn.setTag(17);
-                    statusTips.setText("使用中");
+                    ;
+                    statusTips.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.main_status_online));
                 } else {
                     serviceBtn.setImageResource(R.drawable.running_off);
                     serviceBtn.setTag(7);
-                    statusTips.setText("未接入");
+                    statusTips.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.main_status_offline));
                 }
             }
         });
@@ -368,7 +380,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                waitingBar.setVisibility(View.VISIBLE);
+                if(mProtonProgressDialog==null){
+                    mProtonProgressDialog=new ProtonProgressDialog();
+                }
+                showDialogFragment(mProtonProgressDialog,"loading");
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -376,15 +391,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Easy
         });
     }
 
+
     void hideWaitingRing(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                waitingBar.setVisibility(View.GONE);
+                dismissDialogFragment("loading");
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
     }
+
+
 
     void startVpnService(){
         String protonAddress = ProtonAccount.Instance().ProtonAddress;
