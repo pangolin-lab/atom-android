@@ -43,8 +43,8 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
     public static final String TAG = "ProtonService";
     private static final String LOCAL_IP = "10.8.0.2";
     public static final String BootNodeSavePath =  "OutProtonBootNodes.dat";
-    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed_debug.quantum";
-//    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
+//    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed_debug.quantum";
+    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
 
     private Thread m_VPNThread;
     private ParcelFileDescriptor mInterface;
