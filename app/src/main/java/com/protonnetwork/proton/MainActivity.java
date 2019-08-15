@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -260,6 +261,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             case "6":
                 startEthereumOpt();
+                break;
+            case "9":
+                //TODO refresh node
                 break;
         }
     }
