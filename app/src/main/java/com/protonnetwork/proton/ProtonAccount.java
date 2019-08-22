@@ -23,12 +23,14 @@ public class ProtonAccount {
 
     private static final String KEY_FOR_ACC_ADDR = "KEY_FOR_PROTON_ACC_ADDR";
     private static final String KEY_FOR_ACC_CIPHER = "KEY_FOR_PROTON_ACC_CIPHER";
+    private static final String KEY_FOR_BOUNDED_ETHEREUM_ADDR = "KEY_FOR_BOUNDED_ETHEREUM_ADDR";
 
     public String ProtonAddress, CipherTxt, TmpBoundEthAddress;
 
     private ProtonAccount(){
         this.ProtonAddress = utils.getString(KEY_FOR_ACC_ADDR, "");
         this.CipherTxt = utils.getString(KEY_FOR_ACC_CIPHER, "");
+        this.TmpBoundEthAddress = utils.getString(KEY_FOR_BOUNDED_ETHEREUM_ADDR, "");
     }
 
     public Boolean CreateNewAccount(Context ctx, String pwd) {
@@ -107,5 +109,6 @@ public class ProtonAccount {
             return;
         }
         this.TmpBoundEthAddress = AndroidLib.loadEthAddrByProtonAddr(this.ProtonAddress);
+        utils.saveData(KEY_FOR_BOUNDED_ETHEREUM_ADDR, this.TmpBoundEthAddress);
     }
 }

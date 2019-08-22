@@ -101,7 +101,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         super.onResume();
         refreshUI();
-        reloadBoundEth();
         registerReceiver(statusReceiver, intentFilter);
     }
 
