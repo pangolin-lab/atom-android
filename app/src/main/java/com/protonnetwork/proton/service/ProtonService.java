@@ -44,7 +44,9 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
     private static final String LOCAL_IP = "10.8.0.2";
     public static final String BootNodeSavePath =  "OutProtonBootNodes.dat";
 //    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed_debug.quantum";
-    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
+//    public static final String OUT_TICKET = "https://raw.githubusercontent.com/proton-lab/quantum/master/seed.quantum";
+    public static final String OUT_TICKET = "https://gitee.com/protonlab/quantum/raw/master/seed.quantum";
+
 
     private Thread m_VPNThread;
     private ParcelFileDescriptor mInterface;
@@ -55,6 +57,11 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
     public static void Stop() {
         IsRunning = false;
         AndroidLib.stopVpn();
+    }
+
+    public static void reloadSeedNodes(Context ctx) {
+        String bootPath = ctx.getDir("Pronton", MODE_PRIVATE) + File.separator + BootNodeSavePath;
+        AndroidLib.reloadSeedNodes(OUT_TICKET, bootPath);
     }
 
     public interface onStatusChangedListener {
@@ -103,13 +110,18 @@ public class ProtonService extends VpnService implements androidLib.VpnDelegate,
 
         startNotification();
 
-        String password = intent.getStringExtra(DATA_PASSWORD);
-        boolean setup = this.establishVPN(password);
-        if (!setup){
-            ProtonService.Stop();
-            this.disconnectVPN();
-            return START_NOT_STICKY;
-        }
+        final String password = intent.getStringExtra(DATA_PASSWORD);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean setup = establishVPN(password);
+                if (!setup){
+                    ProtonService.Stop();
+                    disconnectVPN();
+                }
+            }
+        }).start();
+
 
         return super.onStartCommand(intent, flags, startId);
     }

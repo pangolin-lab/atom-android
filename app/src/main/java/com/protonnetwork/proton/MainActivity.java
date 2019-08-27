@@ -262,7 +262,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startEthereumOpt();
                 break;
             case "9":
-                //TODO refresh node
+                showWaitingRing();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ProtonService.reloadSeedNodes(MainActivity.this);
+                        hideWaitingRing();
+                        utils.ToastTips("Update success");
+                    }
+                }).start();
                 break;
         }
     }
@@ -429,7 +437,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     return;
                 }
                 ProtonAccountPassword = password;
-
                 Intent intent = VpnService.prepare(MainActivity.this);
                 if (intent != null) {
                     startActivityForResult(intent, utils.RC_VPN_RIGHT);
