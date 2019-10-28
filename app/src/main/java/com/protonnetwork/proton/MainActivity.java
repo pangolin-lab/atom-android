@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageButton serviceBtn;
     private ProtonProgressDialog mProtonProgressDialog;
 
+
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler(){
         @Override
